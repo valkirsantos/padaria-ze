@@ -134,7 +134,15 @@ export default function PainelPedidos() {
     try {
       const params = filtro !== "todos" ? { status: filtro } : {};
       const { data } = await pedidosService.dia(params);
-      setPedidos(data.pedidos   || []);
+      // Ordena: aguardando → pronto → entregue → cancelado
+      const ORDEM_STATUS = { aguardando:0, pronto:1, entregue:2, cancelado:3 };
+      const ordenados = (data.pedidos || []).sort((a, b) => {
+        const oa = ORDEM_STATUS[a.status] ?? 9;
+        const ob = ORDEM_STATUS[b.status] ?? 9;
+        // Mesmo status: ordena por numero do pedido (mais antigo primeiro)
+        return oa !== ob ? oa - ob : (a.numero - b.numero);
+      });
+      setPedidos(ordenados);
       setMetricas(data.metricas || {});
     } catch (err) {
       console.error("Erro ao carregar pedidos:", err);
