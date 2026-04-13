@@ -1,4 +1,4 @@
-﻿require("dotenv").config();
+require("dotenv").config();
 const express = require("express");
 const cors    = require("cors");
 const helmet  = require("helmet");
@@ -47,6 +47,7 @@ app.use(express.json({ limit: "2mb" }));
 app.use("/api/auth",          require("./routes/auth"));
 app.use("/api/produtos",      require("./routes/produtos"));
 app.use("/api/pedidos",       require("./routes/pedidos"));
+app.use("/api/producao",      require("./routes/producao"));
 app.use("/api/configuracoes", require("./routes/configuracoes"));
 app.use("/api/relatorios",    require("./routes/relatorios"));
 
@@ -54,12 +55,14 @@ app.get("/health", (req, res) => res.json({ status: "ok", env: process.env.NODE_
 
 app.use((err, req, res, next) => {
   console.error("Erro:", err.message);
-  res.status(err.status || 500).json({ error: process.env.NODE_ENV === "production" ? "Erro interno" : err.message });
+  res.status(err.status || 500).json({
+    error: process.env.NODE_ENV === "production" ? "Erro interno" : err.message,
+  });
 });
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
-  console.log(" Servidor rodando em http://localhost:" + PORT);
-  console.log(" WebSocket disponivel em ws://localhost:" + PORT);
-  console.log(" Ambiente: " + (process.env.NODE_ENV || "development"));
+  console.log("🚀 Servidor rodando em http://localhost:" + PORT);
+  console.log("🔌 WebSocket disponivel em ws://localhost:" + PORT);
+  console.log("📋 Ambiente: " + (process.env.NODE_ENV || "development"));
 });

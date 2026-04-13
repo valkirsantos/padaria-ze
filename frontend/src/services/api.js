@@ -1,6 +1,10 @@
-﻿import axios from "axios";
+import axios from "axios";
 
-const api = axios.create({ baseURL: "/api", timeout: 15000, headers: { "Content-Type": "application/json" } });
+const api = axios.create({
+  baseURL: "/api",
+  timeout: 15000,
+  headers: { "Content-Type": "application/json" },
+});
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -33,25 +37,29 @@ export const authService = {
 };
 
 export const produtosService = {
-  catalogo:   (params)     => api.get("/produtos", { params }),
-  admin:      (params)     => api.get("/produtos/admin", { params }),
-  criar:      (dados)      => api.post("/produtos", dados),
-  editar:     (id, dados)  => api.put("/produtos/" + id, dados),
-  toggleDisp: (id, disp)   => api.patch("/produtos/" + id + "/disponibilidade", { disponivel_hoje: disp }),
-  desativar:  (id)         => api.delete("/produtos/" + id),
+  catalogo:   (params)    => api.get("/produtos", { params }),
+  admin:      (params)    => api.get("/produtos/admin", { params }),
+  criar:      (dados)     => api.post("/produtos", dados),
+  editar:     (id, dados) => api.put("/produtos/" + id, dados),
+  toggleDisp: (id, disp)  => api.patch("/produtos/" + id + "/disponibilidade", { disponivel_hoje: disp }),
+  desativar:  (id)        => api.delete("/produtos/" + id),
 };
 
 export const pedidosService = {
-  criar:           (dados)  => api.post("/pedidos", dados),
-  meus:            ()       => api.get("/pedidos/meus"),
-  dia:             (params) => api.get("/pedidos/dia", { params }),
-  detalhe:         (id)     => api.get("/pedidos/" + id),
-  atualizarStatus: (id, s)  => api.put("/pedidos/" + id + "/status",    { status: s }),
-  registrarPagto:  (id, m)  => api.put("/pedidos/" + id + "/pagamento", { metodo: m }),
+  criar:           (dados) => api.post("/pedidos", dados),
+  meus:            ()      => api.get("/pedidos/meus"),
+  dia:             (p)     => api.get("/pedidos/dia",    { params: p }),
+  detalhe:         (id)    => api.get("/pedidos/" + id),
+  atualizarStatus: (id, s) => api.put("/pedidos/" + id + "/status",    { status: s }),
+  registrarPagto:  (id, m) => api.put("/pedidos/" + id + "/pagamento", { metodo: m }),
+};
+
+export const producaoService = {
+  dia: (data) => api.get("/producao/dia", data ? { params: { data } } : {}),
 };
 
 export const configService = {
-  buscar:    () => api.get("/configuracoes"),
+  buscar:    ()      => api.get("/configuracoes"),
   atualizar: (dados) => api.put("/configuracoes", dados),
 };
 
