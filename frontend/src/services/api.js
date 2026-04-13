@@ -37,12 +37,13 @@ export const authService = {
 };
 
 export const produtosService = {
-  catalogo:   (params)    => api.get("/produtos", { params }),
-  admin:      (params)    => api.get("/produtos/admin", { params }),
-  criar:      (dados)     => api.post("/produtos", dados),
-  editar:     (id, dados) => api.put("/produtos/" + id, dados),
-  toggleDisp: (id, disp)  => api.patch("/produtos/" + id + "/disponibilidade", { disponivel_hoje: disp }),
-  desativar:  (id)        => api.delete("/produtos/" + id),
+  catalogo:    (params) => api.get("/produtos",            { params }),
+  categorias:  ()       => api.get("/produtos/categorias"),  // ← novo
+  admin:       (params) => api.get("/produtos/admin",      { params }),
+  criar:       (dados)  => api.post("/produtos", dados),
+  editar:      (id, d)  => api.put("/produtos/" + id, d),
+  toggleDisp:  (id, v)  => api.patch("/produtos/" + id + "/disponibilidade", { disponivel_hoje: v }),
+  desativar:   (id)     => api.delete("/produtos/" + id),
 };
 
 export const pedidosService = {
