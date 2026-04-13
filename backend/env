@@ -1,0 +1,39 @@
+# backend/.env
+# Configuração para PostgreSQL instalado diretamente no Windows (sem Docker)
+# Copie este arquivo para .env e ajuste os valores conforme necessário
+
+# ─── Servidor ─────────────────────────────────────────────────────────────────
+PORT=3001
+NODE_ENV=development
+
+# ─── Banco de dados — PostgreSQL local no Windows ─────────────────────────────
+# Host é localhost porque o PostgreSQL está rodando na própria máquina
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=padaria
+DB_PASSWORD=padaria123
+DB_NAME=padaria_dev
+
+# ─── Autenticação JWT ─────────────────────────────────────────────────────────
+# Para gerar uma chave segura, execute no terminal:
+# node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+JWT_SECRET=padaria_dev_secret_troque_em_producao_por_chave_longa_e_aleatoria
+JWT_EXPIRES_IN=7d
+
+# ─── Z-API (WhatsApp) — deixe em branco durante desenvolvimento ───────────────
+# Em desenvolvimento, o código OTP aparece no console do terminal (não envia WhatsApp)
+# Preencha apenas quando for para produção
+ZAPI_INSTANCE_ID=
+ZAPI_TOKEN=
+ZAPI_BASE_URL=https://api.z-api.io
+
+# ─── Cloudflare R2 — deixe em branco durante desenvolvimento ─────────────────
+# Em desenvolvimento, o upload de fotos pode ser simulado com URLs locais
+R2_ACCOUNT_ID=
+R2_ACCESS_KEY_ID=
+R2_SECRET_ACCESS_KEY=
+R2_BUCKET_NAME=padaria-produtos
+R2_PUBLIC_URL=
+
+# ─── URL do frontend (para CORS) ──────────────────────────────────────────────
+FRONTEND_URL=http://localhost:5173
